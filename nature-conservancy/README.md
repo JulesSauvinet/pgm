@@ -11,14 +11,13 @@ Il y a 6 espèces de poisson : </br>
 - Yellowfin Tuna
 </br>
 
-Le but de la détection est de pouvoir assurer la conservation de ces espèces en vérifiant que les pêcheurs suivent les règlementation de la pêche. On voit donc sur les photos des pêcheurs et une vue plus ou moins clair du poisson pêché. </br>
-Je vous laisse découvrir
-
+Le but de la détection est de pouvoir assurer la conservation de ces espèces en vérifiant que les pêcheurs suivent les règlementations en vigueur. On voit sur les photos des pêcheurs et une vue plus ou moins clair d'un poisson pêché. </br>
+Je vous laisse découvrir.
 
 Il faut télécharger les données : </br>
--> dossier train a mettre dans input : il contient les images avec leur classes de classification pour l'apprentiss ag e</br>
+-> dossier train a mettre dans input : il contient les images avec leur classes de classification pour l'apprentissage </br>
 -> dossier test_stg1 a mettre dans input (images de test) </br>
-(je ne l'ai pas fait car il ne faut pas partager publiquement les données Kaggle)
+(je ne l'ai pas fait car il ne faut pas partager publiquement les données Kaggle, je vous laisse vous créer un compte Kaggle pour les télécharger)
 
 Package cv2 : https://pypi.python.org/pypi/opencv-python </br>
 Installer tensorflow, numpy+mkl et scipy
