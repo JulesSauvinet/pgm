@@ -11,6 +11,11 @@ Il y a 6 espèces de poisson : </br>
 - Yellowfin Tuna
 </br>
 
+Il y deux autres classes :
+- No Fish
+- Other Fish
+</br>
+
 Le but de la détection est de pouvoir assurer la conservation de ces espèces en vérifiant que les pêcheurs suivent les règlementations en vigueur. On voit sur les photos des pêcheurs et une vue plus ou moins clair d'un poisson pêché. </br>
 Je vous laisse découvrir.
 
