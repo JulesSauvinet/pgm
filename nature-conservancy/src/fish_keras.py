@@ -13,6 +13,8 @@ import pandas as pd  # data processing, CSV file I/O (e.g. pd.read_csv)
 
 from subprocess import check_output
 
+from keras.applications import InceptionV3
+
 print(check_output(["ls", "../input"]).decode("utf8"))
 
 # Any results you write to the current directory are saved as output.
@@ -51,7 +53,7 @@ import cv2
 
 def get_im_cv2(path):
     img = cv2.imread(path)
-    resized = cv2.resize(img, (64, 64), cv2.INTER_LINEAR)
+    resized = cv2.resize(img, (128, 128), cv2.INTER_LINEAR)
     return resized
 
 
@@ -62,7 +64,7 @@ def load_train():
     start_time = time.time()
 
     print('Read train images')
-    folders = ['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'SHARK', 'YFT']
+    folders = ['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'OTHERMARLIN','OTHERMOLA', 'SHARK', 'YFT']
     for fld in folders:
         index = folders.index(fld)
         print('Load folder {} (Index: {})'.format(fld, index))
@@ -115,7 +117,7 @@ def read_and_normalize_train_data():
     print('Convert to float...')
     train_data = train_data.astype('float32')
     train_data = train_data / 255
-    train_target = np_utils.to_categorical(train_target, 8)
+    train_target = np_utils.to_categorical(train_target, 10)
 
     print('Train shape:', train_data.shape)
     print(train_data.shape[0], 'train samples')
@@ -145,17 +147,32 @@ def dict_to_list(d):
     return ret
 
 
-def merge_several_folds_mean(data, nfolds):
+def merge_several_folds_mean(data, nfolds, mergeOther = True):
     a = np.array(data[0])
     for i in range(1, nfolds):
         a += np.array(data[i])
     a /= nfolds
+
+    print("a.shape ", a.shape)
+    print("np.shape(a) ",np.shape(a))
+
+    if (mergeOther == True):
+        others = a[:, 5:8].sum(axis=1)
+        others = np.reshape(others, (others.shape[0], 1))
+        a = np.concatenate((a[:, 0:5], others, a[:, 8:10]), axis=1)
+
+    print("np.shape(b) ",np.shape(a))
+
     return a.tolist()
 
 
 def create_model():
+    #model = InceptionV3(weights='imagenet', include_top=False) #Sequential()
     model = Sequential()
-    model.add(ZeroPadding2D((1, 1), input_shape=(3, 64, 64), dim_ordering='th'))
+    #input_tensor = Input(shape=(3,128,128))#224, 224, 3))  # this assumes K.image_dim_ordering() == 'th'
+    #model = InceptionV3(input_tensor=input_tensor, weights='imagenet', include_top=True)
+
+    model.add(ZeroPadding2D((1, 1), input_shape=(3, 128, 128), dim_ordering='th'))
     model.add(Convolution2D(8, 3, 3, activation='relu', dim_ordering='th', init='he_uniform'))
     model.add(Dropout(0.2))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), dim_ordering='th'))
@@ -171,7 +188,7 @@ def create_model():
     model.add(Dense(24, activation='relu', init='he_uniform'))
     model.add(BatchNormalization(axis=1))
     model.add(Dropout(0.2))
-    model.add(Dense(8, activation='softmax'))
+    model.add(Dense(10, activation='softmax'))
 
     # model.add(BatchNormalization(axis=1))
     # model.add(Convolution2D(16,3,3, activation='relu', dim_ordering='th', init='he_uniform'))
@@ -204,8 +221,8 @@ def get_validation_predictions(train_data, predictions_valid):
 def run_cross_validation_create_models(nfolds=10):
     # input image dimensions
     batch_size = 32
-    nb_epoch = 8
-    random_state = 51
+    nb_epoch = 10
+    random_state = 69
     first_rl = 96
 
     train_data, train_target, train_id = read_and_normalize_train_data()

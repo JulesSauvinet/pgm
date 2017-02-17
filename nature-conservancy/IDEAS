@@ -1,0 +1,59 @@
+
+**1**
+Créer d'autres classes de poissons :
+- Baracuda
+- Razorback
+- MOLA
+- WAHOO
+- Lancetfish
+- Snake Mackerel
+-
+-
+Finalement rassembler les classes ajoutées dans la classe Other pour améliorer la détection de classe Other
+
+**2**
+http://cilvr.nyu.edu/doku.php?id=software%3aoverfeat%3astart
+
+**3**
+vgc16 pour detecter les objets!!
+YOLO pour la détection d'objet !! :
+http://pjreddie.com/darknet/yolo/
+
+pretrained weights :
+http://pjreddie.com/darknet/imagenet/
+
+**4**
+AJOUTER DE NOUVELLES IMAGES
+
+**5**
+https://github.com/BVLC/caffe/wiki/Model-Zoo
+
+**6**
+SVM
+
+**7**
+Detecter les photos ou il n'y a pas de poisson avec un modele pre trained trouvé sur le net
+en pre phase puis apres detecter quel type de poisson
+
+**8**
+validation via VGG
+https://www.kaggle.com/dollardollar/the-nature-conservancy-fisheries-monitoring/validation-split-via-vgg-based-clustering
+
+**9**
+mouth and tail annotation
+https://www.kaggle.com/c/the-nature-conservancy-fisheries-monitoring/discussion/25565
+
+**10**
+Deep residual network :
+https://github.com/KaimingHe/deep-residual-networks
+a creuser
+
+**11**
+Keras weights
+https://keras.io/applications/#resnet50
+
+**12**
+Model zoo
+https://github.com/BVLC/caffe/wiki/Model-Zoo
+http://caffe.berkeleyvision.org/model_zoo.html
+

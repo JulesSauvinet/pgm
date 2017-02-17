@@ -1,0 +1,1 @@
+python3 face_recognition.py ..\..\darknet\data\person.jpg facial_recognition\facial_recog.xml
