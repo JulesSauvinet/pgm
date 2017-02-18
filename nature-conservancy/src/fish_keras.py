@@ -1,22 +1,21 @@
+# -------------------------------------------------------------------------------------------------------------------
+#FORKED https://www.kaggle.com/chabir/the-nature-conservancy-fisheries-monitoring/fish-keras-forked2
+# it's just to see
+# -------------------------------------------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------------------------------------------------
 # This Python 3 environment comes with many helpful analytics libraries installed
 # It is defined by the kaggle/python docker image: https://github.com/kaggle/docker-python
 # For example, here's several helpful packages to load in
 
-import numpy as np  # linear algebra
-import pandas as pd  # data processing, CSV file I/O (e.g. pd.read_csv)
-
 # Input data files are available in the "../input/" directory.
 # For example, running this (by clicking run or pressing Shift+Enter) will list the files in the input directory
-
-#FORKED https://www.kaggle.com/chabir/the-nature-conservancy-fisheries-monitoring/fish-keras-forked2
-#just to see
+# -------------------------------------------------------------------------------------------------------------------
 
 from subprocess import check_output
-
 from keras.applications import InceptionV3
 
-print(check_output(["ls", "../input"]).decode("utf8"))
-
+#print(check_output(["ls", "../input"]).decode("utf8"))
 # Any results you write to the current directory are saved as output.
 
 import numpy as np
@@ -29,6 +28,7 @@ import datetime
 import pandas as pd
 import time
 import warnings
+import cv2
 
 warnings.filterwarnings("ignore")
 
@@ -49,13 +49,19 @@ from keras.constraints import maxnorm
 from sklearn.metrics import log_loss
 from keras import __version__ as keras_version
 
-import cv2
+
+# -------------------------------------------------------------------------------------------------------------------
+# Fonction qui permet de manipuler les images en les redimenssionnant une fois chargee
 
 def get_im_cv2(path):
     img = cv2.imread(path)
     resized = cv2.resize(img, (128, 128), cv2.INTER_LINEAR)
     return resized
+# -------------------------------------------------------------------------------------------------------------------
 
+
+# -------------------------------------------------------------------------------------------------------------------
+# Fonction qui permet de charger les donnees d'apprentissage en les rangeant par classe
 
 def load_train():
     X_train = []
@@ -79,7 +85,11 @@ def load_train():
 
     print('Read train data time: {} seconds'.format(round(time.time() - start_time, 2)))
     return X_train, y_train, X_train_id
+# -------------------------------------------------------------------------------------------------------------------
 
+
+# -------------------------------------------------------------------------------------------------------------------
+# Fonction qui permet de charger les donnees de test -> on ne connait pas la classe a tester
 
 def load_test():
     path = os.path.join('..', 'input', 'test_stg1', '*.jpg')
@@ -94,7 +104,11 @@ def load_test():
         X_test_id.append(flbase)
 
     return X_test, X_test_id
+# -------------------------------------------------------------------------------------------------------------------
 
+
+# -------------------------------------------------------------------------------------------------------------------
+# Fonction qui cree le fichier de sortie au format du fichier de soumission voulu
 
 def create_submission(predictions, test_id, info):
     result1 = pd.DataFrame(predictions, columns=['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'SHARK', 'YFT'])
@@ -102,7 +116,11 @@ def create_submission(predictions, test_id, info):
     now = datetime.datetime.now()
     sub_file = 'submission_' + info + '_' + str(now.strftime("%Y-%m-%d-%H-%M")) + '.csv'
     result1.to_csv(sub_file, index=False)
+# -------------------------------------------------------------------------------------------------------------------
 
+
+# -------------------------------------------------------------------------------------------------------------------
+# Fonction qui charge les donnees d'apprentissage au format numpy afin de les manipuler
 
 def read_and_normalize_train_data():
     train_data, train_target, train_id = load_train()
@@ -122,7 +140,11 @@ def read_and_normalize_train_data():
     print('Train shape:', train_data.shape)
     print(train_data.shape[0], 'train samples')
     return train_data, train_target, train_id
+# -------------------------------------------------------------------------------------------------------------------
 
+
+# -------------------------------------------------------------------------------------------------------------------
+# Fonction qui charge les donnees de test au format numpy afin de les manipuler
 
 def read_and_normalize_test_data():
     start_time = time.time()
@@ -138,15 +160,19 @@ def read_and_normalize_test_data():
     print(test_data.shape[0], 'test samples')
     print('Read and process test data time: {} seconds'.format(round(time.time() - start_time, 2)))
     return test_data, test_id
+# -------------------------------------------------------------------------------------------------------------------
 
 
+# -------------------------------------------------------------------------------------------------------------------
 def dict_to_list(d):
     ret = []
     for i in d.items():
         ret.append(i[1])
     return ret
+# -------------------------------------------------------------------------------------------------------------------
 
 
+# -------------------------------------------------------------------------------------------------------------------
 def merge_several_folds_mean(data, nfolds, mergeOther = True):
     a = np.array(data[0])
     for i in range(1, nfolds):
@@ -164,8 +190,10 @@ def merge_several_folds_mean(data, nfolds, mergeOther = True):
     print("np.shape(b) ",np.shape(a))
 
     return a.tolist()
+# -------------------------------------------------------------------------------------------------------------------
 
-
+# -------------------------------------------------------------------------------------------------------------------
+# 
 def create_model():
     #model = InceptionV3(weights='imagenet', include_top=False) #Sequential()
     model = Sequential()
@@ -209,15 +237,20 @@ def create_model():
     model.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['accuracy'])
 
     return model
+# -------------------------------------------------------------------------------------------------------------------
 
+
+# -------------------------------------------------------------------------------------------------------------------
 
 def get_validation_predictions(train_data, predictions_valid):
     pv = []
     for i in range(len(train_data)):
         pv.append(predictions_valid[i])
     return pv
+# -------------------------------------------------------------------------------------------------------------------
 
 
+# -------------------------------------------------------------------------------------------------------------------
 def run_cross_validation_create_models(nfolds=10):
     # input image dimensions
     batch_size = 32
@@ -268,7 +301,10 @@ def run_cross_validation_create_models(nfolds=10):
     info_string = '_' + str(np.round(score, 3)) + '_flds_' + str(nfolds) + '_eps_' + str(nb_epoch) + '_fl_' + str(
         first_rl)
     return info_string, models
+# -------------------------------------------------------------------------------------------------------------------
 
+
+# -------------------------------------------------------------------------------------------------------------------
 
 def run_cross_validation_process_test(info_string, models):
     batch_size = 24
@@ -289,8 +325,10 @@ def run_cross_validation_process_test(info_string, models):
     info_string = 'loss_' + info_string \
                   + '_folds_' + str(nfolds)
     create_submission(test_res, test_id, info_string)
+# -------------------------------------------------------------------------------------------------------------------
 
 
+# -------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     print('Keras version: {}'.format(keras_version))
     num_folds = 3
