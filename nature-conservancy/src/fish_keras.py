@@ -61,7 +61,7 @@ def get_im_cv2(path):
 
 
 # -------------------------------------------------------------------------------------------------------------------
-# Fonction qui permet de charger les donnees d'apprentissage en les rangeant par classe
+# Fonction qui permet de charger les donnees d'apprentissage en les rangeant par classe (= folders)
 
 def load_train():
     X_train = []
@@ -173,6 +173,8 @@ def dict_to_list(d):
 
 
 # -------------------------------------------------------------------------------------------------------------------
+#
+
 def merge_several_folds_mean(data, nfolds, mergeOther = True):
     a = np.array(data[0])
     for i in range(1, nfolds):
@@ -192,8 +194,12 @@ def merge_several_folds_mean(data, nfolds, mergeOther = True):
     return a.tolist()
 # -------------------------------------------------------------------------------------------------------------------
 
+
 # -------------------------------------------------------------------------------------------------------------------
-# 
+# Fontion qui cree un model de type Sequential qui permet de resoudre le pbm
+# On cree un model Sequential vide pour ensuite lui ajouter toutes les options
+# A COMPRENDRE
+
 def create_model():
     #model = InceptionV3(weights='imagenet', include_top=False) #Sequential()
     model = Sequential()
@@ -251,6 +257,9 @@ def get_validation_predictions(train_data, predictions_valid):
 
 
 # -------------------------------------------------------------------------------------------------------------------
+# Fonction qui va creer un model de prediction a partir des donnees d'apprentissage
+# A COMPRENDRE
+
 def run_cross_validation_create_models(nfolds=10):
     # input image dimensions
     batch_size = 32
@@ -305,7 +314,7 @@ def run_cross_validation_create_models(nfolds=10):
 
 
 # -------------------------------------------------------------------------------------------------------------------
-
+# Fonction de prediction que l'on applique aux donnees test
 def run_cross_validation_process_test(info_string, models):
     batch_size = 24
     num_fold = 0
@@ -322,8 +331,7 @@ def run_cross_validation_process_test(info_string, models):
         yfull_test.append(test_prediction)
 
     test_res = merge_several_folds_mean(yfull_test, nfolds)
-    info_string = 'loss_' + info_string \
-                  + '_folds_' + str(nfolds)
+    info_string = 'loss_' + info_string + '_folds_' + str(nfolds)
     create_submission(test_res, test_id, info_string)
 # -------------------------------------------------------------------------------------------------------------------
 
