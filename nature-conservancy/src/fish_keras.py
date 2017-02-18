@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------------------------------------------------------
-#FORKED https://www.kaggle.com/chabir/the-nature-conservancy-fisheries-monitoring/fish-keras-forked2
+# FORKED https://www.kaggle.com/chabir/the-nature-conservancy-fisheries-monitoring/fish-keras-forked2
 # it's just to see
 # -------------------------------------------------------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ from keras import __version__ as keras_version
 
 
 # -------------------------------------------------------------------------------------------------------------------
-# Fonction qui permet de manipuler les images en les redimenssionnant une fois chargee
+# Fonction qui permet de manipuler les images en les redimenssionnant une fois chargees
 
 def get_im_cv2(path):
     img = cv2.imread(path)
