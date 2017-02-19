@@ -84,7 +84,7 @@ print("Results: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
 
 
 # evaluate baseline model with standardized dataset
-print('Creation du baseline model avec standardized dataset')
+print('\nCreation du baseline model avec standardized dataset')
 numpy.random.seed(seed)
 estimators = []
 estimators.append(('standardize', StandardScaler()))
