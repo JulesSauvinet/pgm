@@ -10,8 +10,6 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
-
-
 # baseline model
 def create_baseline():
     # create model
@@ -51,7 +49,6 @@ def create_larger():
 	model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 	return model
 
-    
 
 # fix random seed for reproducibility
 seed = 5
@@ -74,6 +71,7 @@ encoder.fit(Y)
 encoded_Y = encoder.transform(Y)
 print('...done\n')
 
+
 # evaluate model with standardized dataset
 print('Creation du model avec standardized dataset')
 estimator = KerasClassifier(build_fn=create_baseline, nb_epoch=100, batch_size=5, verbose=0)
@@ -95,6 +93,7 @@ results = cross_val_score(pipeline, X, encoded_Y, cv=kfold)
 print("Standardized: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
 
 
+
 # evaluate model with smaller dataset
 print('\nCreation du model avec smaller dataset')
 numpy.random.seed(seed)
@@ -105,6 +104,7 @@ pipeline = Pipeline(estimators)
 kfold = StratifiedKFold(n_splits=10, shuffle=True, random_state=seed)
 results = cross_val_score(pipeline, X, encoded_Y, cv=kfold)
 print("Smaller: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
+
 
 # evaluate model with larger dataset
 print('\nCreation du model avec larger dataset')
