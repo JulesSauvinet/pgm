@@ -1,7 +1,3 @@
-# Data describes patient medical record data for Pima Indians
-# and whether they had an onset of diabetes within five years.
-# It is a binary classification problem (onset of diabetes as 1 or not as 0)
-
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from keras.models import Sequential
