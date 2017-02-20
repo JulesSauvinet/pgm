@@ -59,16 +59,15 @@ model.add(Dense(20, init='uniform', activation='relu'))
 model.add(Dense(1, init='uniform', activation='sigmoid'))
 
 # Compile model
-# binary_crossentropy = logarithmic loss
 # adam = the efficient gradient descent algorithm
 # accuracy = we will collect and report the classification accuracy as the metric
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Fit the model
 model.fit(X_Train, Y_Train, nb_epoch=150, batch_size=10,verbose=2)
 
 # evaluate the model
-scores = model.evaluate(X_Test, Y_Test)
+scores = model.evaluate(X, Y)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 # calculate predictions
