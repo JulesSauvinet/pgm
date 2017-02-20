@@ -37,7 +37,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 model.fit(X_Train, Y_Train, nb_epoch=150, batch_size=10,verbose=2)
 
 # evaluate the model
-scores = model.evaluate(X, Y)
+scores = model.evaluate(X_Test, Y_Test)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 # calculate predictions
